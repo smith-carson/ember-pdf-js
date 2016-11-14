@@ -48,5 +48,6 @@
   "white": false,
   "eqnull": true,
   "esversion": 6,
-  "unused": true
+  "unused": true,
+  "asi": true
 }

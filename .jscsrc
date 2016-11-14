@@ -1,0 +1,7 @@
+{
+  "preset": "ember-suave",
+  "disallowSemicolons": true,
+  "requireSemicolons": false,
+  "disallowSpacesInFunction": false,
+  "disallowSpaceAfterObjectKeys": false
+}
