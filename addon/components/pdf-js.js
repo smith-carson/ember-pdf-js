@@ -33,6 +33,10 @@ export default Component.extend({
   pdfHistory: undefined,
   pdfViewer: undefined,
   pdfFindController: undefined,
+  pdfPage: 0,
+
+  // components
+  toolbarComponent: 'pdf-js-toolbar',
 
   // initialization
   didInsertElement () {
@@ -89,17 +93,39 @@ export default Component.extend({
     },
     search (query, highlightAll, caseSensitive, phraseSearch) {
       let pdfFindController = this.get('pdfFindController')
-      pdfFindController.exec('find', {
+      pdfFindController.executeCommand('find', {
         query,
         highlightAll,
         caseSensitive,
         phraseSearch
       })
     },
+    changePage (changePage) {
+      switch (changePage) {
+        case 'prev':
+          this.send('prevPage')
+          break
+        case 'next':
+          this.send('nextPage')
+          break
+        default:
+          // regular change of page:
+          let pdfLinkService = this.get('pdfLinkService')
+          pdfLinkService.page = changePage
+      }
+    },
     nextPage () {
-      Ember.Logger.debug('Next Page!')
+      Ember.Logger.debug('pdf-js -> Next Page!')
       let pdfLinkService = this.get('pdfLinkService')
       pdfLinkService.page++
+    },
+    prevPage () {
+      Ember.Logger.debug('pdf-js -> Next Page!')
+      let pdfLinkService = this.get('pdfLinkService')
+      pdfLinkService.page--
+    },
+    zoom () {
+      throw 'not implemented yet'
     }
   }
 

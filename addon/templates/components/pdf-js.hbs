@@ -1,4 +1,10 @@
-{{yield nextPage=(action 'nextPage') search=(action 'search')}}
+{{component toolbarComponent
+  changePage=(action 'changePage')
+  search=(action 'search')
+  zoom=(action 'zoom')
+  page=pdfPage
+  class="ember-pdf-js toolbar"
+}}
 <div class="pdfViewerContainer">
   <div class="pdfViewer">
   </div>

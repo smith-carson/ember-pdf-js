@@ -1,1 +1,20 @@
-<button type="button" {{action 'nextPage'}}> Next page !</button>
+<button type="button" {{action (action this.attrs.changePage) 'next'}}>
+  Next page !
+</button>
+<button type="button" {{action (action this.attrs.changePage) 'prev'}}>
+  Prev page !
+</button>
+{{one-way-input searchTerms update=(pipe-action (action (mut searchTerm)) (action 'search'))}}
+<br>
+<label>
+  {{one-way-checkbox caseSensitive update=(pipe-action (action (mut caseSensitive)) (action 'search'))}}
+  case sensitive
+</label>
+<label>
+  {{one-way-checkbox phraseSearch update=(pipe-action (action (mut phraseSearch)) (action 'search'))}}
+  match phrase
+</label>
+<label>
+  {{one-way-checkbox highlightAll update=(pipe-action (action (mut highlightAll)) (action 'search'))}}
+  highlightAll
+</label>
