@@ -9,6 +9,9 @@ module.exports = {
   included (app) {
     this._super.included(app)
 
+    while (app.app) {
+      app = app.app
+    }
     app.import(`${app.bowerDirectory}/pdfjs-dist/build/pdf.js`)
     // app.import(`${app.bowerDirectory}/pdfjs-dist/build/pdf.combined.js`)
     app.import(`${app.bowerDirectory}/pdfjs-dist/build/pdf.worker.js`)
