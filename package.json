@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:each"
   },
-  "repository": "",
+  "repository": "https://github.com/smith-carson/ember-pdf-js",
   "engines": {
     "node": ">= 0.12.0"
   },
