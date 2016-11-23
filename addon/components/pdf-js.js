@@ -101,28 +101,18 @@ export default Component.extend({
       })
     },
     changePage (changePage) {
+      let pdfLinkService = this.get('pdfLinkService')
       switch (changePage) {
         case 'prev':
-          this.send('prevPage')
+          pdfLinkService.page--
           break
         case 'next':
-          this.send('nextPage')
+          pdfLinkService.page++
           break
         default:
           // regular change of page:
-          let pdfLinkService = this.get('pdfLinkService')
           pdfLinkService.page = changePage
       }
-    },
-    nextPage () {
-      Ember.Logger.debug('pdf-js -> Next Page!')
-      let pdfLinkService = this.get('pdfLinkService')
-      pdfLinkService.page++
-    },
-    prevPage () {
-      Ember.Logger.debug('pdf-js -> Next Page!')
-      let pdfLinkService = this.get('pdfLinkService')
-      pdfLinkService.page--
     },
     zoom () {
       throw 'not implemented yet'

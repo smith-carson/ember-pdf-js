@@ -8,6 +8,9 @@ module.exports = {
   name: 'ember-pdf-js',
   included (app, parentAddon) {
     this._super.included(...arguments)
+    while (app.app) {
+      app = app.app
+    }
     let target = parentAddon || app
     target.import(`${target.bowerDirectory}/pdfjs-dist/build/pdf.js`)
     // target.import(`${target.bowerDirectory}/pdfjs-dist/build/pdf.combined.js`)
