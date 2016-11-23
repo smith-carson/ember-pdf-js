@@ -18,6 +18,8 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "broccoli-funnel": "^1.0.9",
+    "broccoli-merge-trees": "^1.1.5",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^2.4.1",
     "ember-browserify": "1.1.13",
@@ -47,9 +49,6 @@
     "ember-addon"
   ],
   "dependencies": {
-    "broccoli-funnel": "^1.0.9",
-    "broccoli-merge-trees": "^1.1.5",
-    "ember-composable-helpers": "1.1.2",
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "1.1.0",
     "ember-one-way-controls": "1.1.2"

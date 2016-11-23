@@ -6,18 +6,15 @@ const Funnel = require('broccoli-funnel')
 
 module.exports = {
   name: 'ember-pdf-js',
-  included (app) {
-    this._super.included(app)
-
-    while (app.app) {
-      app = app.app
-    }
-    app.import(`${app.bowerDirectory}/pdfjs-dist/build/pdf.js`)
-    // app.import(`${app.bowerDirectory}/pdfjs-dist/build/pdf.combined.js`)
-    app.import(`${app.bowerDirectory}/pdfjs-dist/build/pdf.worker.js`)
-    app.import(app.bowerDirectory + '/pdfjs-dist/web/pdf_viewer.js')
-    app.import(app.bowerDirectory + '/pdfjs-dist/web/pdf_viewer.css')
-    // app.import(app.bowerDirectory + '/pdfjs-dist/build/pdf.worker.entry.js')
+  included (app, parentAddon) {
+    this._super.included(...arguments)
+    let target = parentAddon || app
+    target.import(`${target.bowerDirectory}/pdfjs-dist/build/pdf.js`)
+    // target.import(`${target.bowerDirectory}/pdfjs-dist/build/pdf.combined.js`)
+    target.import(`${target.bowerDirectory}/pdfjs-dist/build/pdf.worker.js`)
+    target.import(target.bowerDirectory + '/pdfjs-dist/web/pdf_viewer.js')
+    target.import(target.bowerDirectory + '/pdfjs-dist/web/pdf_viewer.css')
+    // target.import(target.bowerDirectory + '/pdfjs-dist/build/pdf.worker.entry.js')
   },
 
   treeForPublic (tree) {

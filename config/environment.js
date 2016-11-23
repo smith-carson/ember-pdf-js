@@ -2,5 +2,9 @@
 'use strict'
 
 module.exports = function (/* environment, appConfig */) {
-  return { }
+  return {
+    emberPdfJs: {
+      workerSrc: '/pdf.worker.js'
+    }
+  }
 }

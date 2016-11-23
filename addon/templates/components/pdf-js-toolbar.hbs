@@ -4,17 +4,17 @@
 <button type="button" {{action (action this.attrs.changePage) 'prev'}}>
   Prev page !
 </button>
-{{one-way-input searchTerms update=(pipe-action (action (mut searchTerm)) (action 'search'))}}
+{{one-way-input searchTerms update=(action 'updateSearchTerm')}}
 <br>
 <label>
-  {{one-way-checkbox caseSensitive update=(pipe-action (action (mut caseSensitive)) (action 'search'))}}
+  {{one-way-checkbox caseSensitive update=(action 'updateCaseSensitive')}}
   case sensitive
 </label>
 <label>
-  {{one-way-checkbox phraseSearch update=(pipe-action (action (mut phraseSearch)) (action 'search'))}}
+  {{one-way-checkbox phraseSearch update=(action 'updatePhraseSearch')}}
   match phrase
 </label>
 <label>
-  {{one-way-checkbox highlightAll update=(pipe-action (action (mut highlightAll)) (action 'search'))}}
+  {{one-way-checkbox highlightAll update=(action 'updateHighlightAll')}}
   highlightAll
 </label>

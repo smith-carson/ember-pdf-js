@@ -7,22 +7,35 @@ export default Component.extend({
   layout,
 
   // variables
-  searchTerm: '',
+  searchTerms: '',
   caseSensitive: false,
   highlightAll: true,
   phraseSearch: false,
 
   actions: {
     search () {
-      let searchTerm = this.get('searchTerm')
+      let searchTerms = this.get('searchTerms')
       let caseSensitive = this.get('caseSensitive')
       let highlightAll = this.get('highlightAll')
       let phraseSearch = this.get('phraseSearch')
 
-      this.sendAction('search', searchTerm, highlightAll, caseSensitive, phraseSearch)
+      this.sendAction('search', searchTerms, highlightAll, caseSensitive, phraseSearch)
     },
-    updateSearchTerm () {
-      Ember.Logger.debug('updateSearchTerm', arguments)
+    updateSearchTerm (newValue) {
+      this.set('searchTerms', newValue)
+      this.send('search')
+    },
+    updateCaseSensitive (newValue) {
+      this.set('caseSensitive', newValue)
+      this.send('search')
+    },
+    updatePhraseSearch (newValue) {
+      this.set('phraseSearch', newValue)
+      this.send('search')
+    },
+    updateHighlightAll (newValue) {
+      this.set('highlightAll', newValue)
+      this.send('search')
     }
   }
 })
