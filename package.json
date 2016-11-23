@@ -46,7 +46,10 @@
     "standard": "^8.5.0"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "pdf",
+    "pdf-js",
+    "pdfjs"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.7",
