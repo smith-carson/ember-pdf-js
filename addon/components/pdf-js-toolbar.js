@@ -1,7 +1,9 @@
 import Ember from 'ember'
 import layout from '../templates/components/pdf-js-toolbar'
 
-const { Component } = Ember
+const {
+  Component
+} = Ember
 
 export default Component.extend({
   layout,
@@ -11,6 +13,8 @@ export default Component.extend({
   caseSensitive: false,
   highlightAll: true,
   phraseSearch: false,
+  page: undefined,
+  pageTotal: undefined,
 
   actions: {
     search () {

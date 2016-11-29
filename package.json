@@ -18,9 +18,9 @@
   "author": "leojpod",
   "license": "MIT",
   "devDependencies": {
+    "broccoli-asset-rev": "^2.4.5",
     "broccoli-funnel": "^1.0.9",
     "broccoli-merge-trees": "^1.1.5",
-    "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^2.4.1",
     "ember-browserify": "1.1.13",
     "ember-cli": "2.9.1",
@@ -54,7 +54,8 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "1.1.0",
-    "ember-one-way-controls": "1.1.2"
+    "ember-one-way-controls": "1.1.2",
+    "ember-truth-helpers": "1.2.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

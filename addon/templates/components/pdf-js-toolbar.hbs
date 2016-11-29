@@ -1,7 +1,7 @@
-<button type="button" {{action (action this.attrs.changePage) 'next'}}>
+<button type="button" {{action (action this.attrs.changePage) 'next'}} disabled={{gte page pageTotal}}>
   Next page !
 </button>
-<button type="button" {{action (action this.attrs.changePage) 'prev'}}>
+<button type="button" {{action (action this.attrs.changePage) 'prev'}} disabled={{lte page 1}}>
   Prev page !
 </button>
 {{one-way-input searchTerms update=(action 'updateSearchTerm')}}
@@ -18,3 +18,4 @@
   {{one-way-checkbox highlightAll update=(action 'updateHighlightAll')}}
   highlightAll
 </label>
+<label>page {{page}} of {{pageTotal}}</label>
