@@ -11,3 +11,8 @@
 ## Addon's "API"
 
 TODO!!
+
+
+## A word about the current page update
+
+There are some limitation ATM on how the current page is updated. The "scroll" need to be placed on the `.pdfViewerContainer`. For an example on how to do it, check the dummy app's [style sheet](https://github.com/smith-carson/ember-pdf-js/blob/master/tests/dummy/app/styles/app.css)

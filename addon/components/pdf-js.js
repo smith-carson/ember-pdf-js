@@ -13,7 +13,8 @@ const {
   Component,
   computed: { reads },
   inject: { service: injectService },
-  observer
+  observer,
+  run
 } = Ember
 
 export default Component.extend({
@@ -33,17 +34,19 @@ export default Component.extend({
   pdfHistory: undefined,
   pdfViewer: undefined,
   pdfFindController: undefined,
-  pdfPage: 0,
+  pdfPage: undefined,
+  pdfTotalPages: undefined,
 
   // components
   toolbarComponent: 'pdf-js-toolbar',
 
   // initialization
   didInsertElement () {
+    let [container] = this.element.getElementsByClassName('pdfViewerContainer')
     let pdfLinkService = new PDFLinkService()
     this.set('pdfLinkService', pdfLinkService)
     let pdfViewer = new PDFViewer({
-      container: this.element.getElementsByClassName('pdfViewerContainer')[0],
+      container,
       linkService: pdfLinkService
     })
     this.set('pdfViewer', pdfViewer)
@@ -52,11 +55,22 @@ export default Component.extend({
       linkService: pdfLinkService
     })
     this.set('pdfHistory', pdfHistory)
+    pdfLinkService.setHistory(pdfHistory)
     let pdfFindController = new PDFFindController({
       pdfViewer
     })
     this.set('pdfFindController', pdfFindController)
     pdfViewer.setFindController(pdfFindController)
+    pdfViewer.currentScaleValue = 'page-fit'
+
+    // setup the event listening to synchronise with pdf.js' modifications
+    let self = this
+    pdfViewer.eventBus.on('pagechange', function (evt) {
+      let page = evt.pageNumber
+      run(function () {
+        self.set('pdfPage', page)
+      })
+    })
 
     if (this.get('pdf')) {
       this.send('load')
@@ -86,6 +100,8 @@ export default Component.extend({
         linkService.setDocument(pdfDocument)
         let history = this.get('pdfHistory')
         history.initialize(pdfDocument.fingerprint)
+        this.set('pdfTotalPages', linkService.pagesCount)
+        this.set('pdfPage', linkService.page)
       })
 
       this.set('loadingTask', loadingTask)
