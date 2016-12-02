@@ -1,11 +1,15 @@
 
 {{component toolbarComponent
   changePage=(action 'changePage')
+  changeSearchResult=(action 'changeSearchResult')
   search=(action 'search')
   zoom=(action 'zoom')
   page=pdfPage
   pageTotal=pdfTotalPages
   class="ember-pdf-js toolbar"
+  currentMatch=currentMatch
+  currentMatchIdx=currentMatchIdx
+  matchTotal=matchTotal
 }}
 <div class="pdfViewerContainer">
   <div class="pdfViewer">
