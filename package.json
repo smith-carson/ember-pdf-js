@@ -1,6 +1,6 @@
 {
   "name": "ember-pdf-js",
-  "version": "0.1.5",
+  "version": "0.1.6-beta",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
