@@ -195,8 +195,7 @@ export default Component.extend({
         default:
           return
       }
-      let container = this.get('_container')
-      let divMatchPromise = scrollToMatch(this.get('pdfViewer'), pdfFindController.selected)
+      scrollToMatch(this.get('pdfViewer'), pdfFindController.selected)
     },
     changePage (changePage) {
       let pdfLinkService = this.get('pdfLinkService')
@@ -209,7 +208,7 @@ export default Component.extend({
           break
         default:
           // regular change of page:
-          pdfLinkService.page = changePage
+          pdfLinkService.page = Number.parseInt(changePage)
       }
       let pdfViewer = this.get('pdfViewer')
       pdfViewer.getPageView(pdfLinkService.page - 1).div.scrollIntoView()
