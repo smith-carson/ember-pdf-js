@@ -22,19 +22,19 @@ function scrollToMatch (pdfViewer, match) {
   let page = pdfViewer.getPageView(pageIdx)
   let { textLayer } = page
   if (!textLayer) {
-    Ember.Logger.debug(`page ${pageIdx} not ready`)
+    // Ember.Logger.debug(`page ${pageIdx} not ready`)
     page.div.scrollIntoView()
     run.later(() => {
-      Ember.Logger.debug('re-running scrollToMatch')
+      // Ember.Logger.debug('re-running scrollToMatch')
       scrollToMatch(pdfViewer, match)
     }, 50)
   } else {
-    Ember.Logger.debug('ready to scroll right to the match')
+    // Ember.Logger.debug('ready to scroll right to the match')
     if (!textLayer.textContent) {
-      Ember.Logger.debug('textLayer.textContent ', textLayer.textContent)
-      Ember.Logger.debug('page->', page)
+      // Ember.Logger.debug('textLayer.textContent ', textLayer.textContent)
+      // Ember.Logger.debug('page->', page)
       run.later(() => {
-        Ember.Logger.debug('re-running scrollToMatch')
+        // Ember.Logger.debug('re-running scrollToMatch')
         scrollToMatch(pdfViewer, match)
       }, 50)
     } else {
@@ -97,8 +97,8 @@ export default Component.extend({
       pdfViewer
     })
     this.set('pdfFindController', pdfFindController)
-    Ember.Logger.debug('pdfFindController -> ', pdfFindController)
-    Ember.Logger.debug('pdfViewer -> ', pdfViewer)
+    // Ember.Logger.debug('pdfFindController -> ', pdfFindController)
+    // Ember.Logger.debug('pdfViewer -> ', pdfViewer)
     pdfViewer.setFindController(pdfFindController)
     pdfViewer.currentScaleValue = 'page-fit'
 

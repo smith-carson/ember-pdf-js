@@ -11,6 +11,6 @@ module.exports = {
   // }
 
   afterInstall () {
-    return this.addBowerPackageToProject('pdfjs-dist', '^1.6.343')
+    return this.addBowerPackageToProject('pdfjs-dist', '^1.6.414')
   }
 }
