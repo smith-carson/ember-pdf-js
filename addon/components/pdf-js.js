@@ -164,6 +164,7 @@ export default Component.extend({
         history.initialize(pdfDocument.fingerprint)
         this.set('pdfTotalPages', linkService.pagesCount)
         this.set('pdfPage', linkService.page)
+        this.sendAction('documentChanged', pdfDocument)
       })
 
       this.set('loadingTask', loadingTask)
