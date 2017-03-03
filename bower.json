@@ -1,8 +1,6 @@
 {
   "name": "ember-pdf-js",
   "dependencies": {
-    "ember": "~2.9.0",
-    "ember-cli-shims": "~0.1.1",
-    "pdfjs-dist": "^1.6.319"
+    "pdfjs-dist": "1.7.316"
   }
 }
