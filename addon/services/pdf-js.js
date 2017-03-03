@@ -1,11 +1,9 @@
 /* global PDFJS */
 import Ember from 'ember'
-// import PDFJS from 'npm:pdfjs-dist'
 
 const { getOwner, Service } = Ember
 
 export default Service.extend({
-  pdfLib: undefined,
   init () {
     this._super(...arguments)
 
