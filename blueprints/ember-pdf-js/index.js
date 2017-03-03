@@ -10,6 +10,8 @@ module.exports = {
   //   };
   // }
 
+  normalizeEntityName () {},
+
   afterInstall () {
     return this.addBowerPackageToProject('pdfjs-dist', '1.7.316')
   }
