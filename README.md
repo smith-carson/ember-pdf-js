@@ -8,9 +8,32 @@
 [![Dev Dependencies](https://img.shields.io/david/dev/smith-carson/ember-pdf-js.svg)](https://david-dm.org/smith-carson/ember-pdf-js#info=devDependencies)
 
 
+This is a simple addon to wrap PDF.js in ember.
+
 ## Addon's "API"
 
-TODO!!
+To use it in a really simple way just use the `pdf-js` component:
+
+```handlebars
+{{pdf-js pdf=urlOfYourPdf}}
+```
+
+In most cases, you will want to "extend" the toolbar component, you can develop your own component and make `ember-pdf-js` use it:
+
+```handlebars
+{{pdf-js pdf=urlOfYourPdf toolbarComponent="your-component-here"}}
+```
+
+Your toolbar component should extends the original component:
+
+```javascript
+import PdfJsToolbar from 'ember-pdf-js/components/pdf-js-toolbar';
+import layout from '../../templates/components/pdf-js/toolbar';
+
+export default PdfJsToolbar.extend({
+  layout
+  })
+```
 
 
 ## A word about the current page update
