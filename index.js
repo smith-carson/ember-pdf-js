@@ -3,6 +3,7 @@
 const path = require('path')
 const mergeTrees = require('broccoli-merge-trees')
 const Funnel = require('broccoli-funnel')
+const neededJsFiles = ['pdf.js', 'pdf.worker.js']
 
 module.exports = {
   name: 'ember-pdf-js',
@@ -26,15 +27,21 @@ module.exports = {
     let pdfJsImagesTree = new Funnel(this.treeGenerator(pdfJsImages), {
       destDir: '/assets/images'
     })
+    let pdfJsFilesTree = new Funnel(workerPath, {
+      include: neededJsFiles,
+      destDir: '/'
+    })
     if (tree) {
       return mergeTrees([
         tree,
-        workerPath,
+        // workerPath,
+        pdfJsFilesTree,
         pdfJsImagesTree
       ])
     } else {
       return mergeTrees([
-        workerPath,
+        // workerPath,
+        pdfJsFilesTree,
         pdfJsImagesTree
       ])
     }
