@@ -78,7 +78,7 @@ export default Component.extend({
 
   // initialization
   didInsertElement () {
-    let [container] = this.element.getElementsByClassName('pdfViewerContainer')
+    let container =  this.element.getElementsByClassName('pdfViewerContainer')[0]
     this.set('_container', container)
     let pdfLinkService = new PDFLinkService()
     this.set('pdfLinkService', pdfLinkService)
@@ -116,7 +116,7 @@ export default Component.extend({
         self.set('matchTotal', total)
       })
     }
-    pdfFindController.onUpdateState = function (state, previous, total) {
+    pdfFindController.onUpdateState = function (state/*, previous, total*/) {
       run(function () {
         if (state !== 0 && state !== 2) { // 0 <=> search found something ; 2 <=> wrapped
           return
