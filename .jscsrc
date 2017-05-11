@@ -3,5 +3,6 @@
   "disallowSemicolons": true,
   "requireSemicolons": false,
   "disallowSpacesInFunction": false,
-  "disallowSpaceAfterObjectKeys": false
+  "disallowSpaceAfterObjectKeys": false,
+  "requireSpacesInsideObjectBrackets": false
 }

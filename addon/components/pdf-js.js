@@ -10,17 +10,20 @@ const {
 } = PDFJS
 
 const {
+  A,
   Component,
-  computed: { reads },
-  inject: { service: injectService },
+  computed,
+  computed: {reads},
+  inject: {service: injectService},
+  isEmpty,
   observer,
   run
 } = Ember
 
 function scrollToMatch (pdfViewer, match) {
-  let { pageIdx, matchIdx } = match
+  let {pageIdx, matchIdx} = match
   let page = pdfViewer.getPageView(pageIdx)
-  let { textLayer } = page
+  let {textLayer} = page
   if (!textLayer) {
     // Ember.Logger.debug(`page ${pageIdx} not ready`)
     page.div.scrollIntoView()
@@ -38,16 +41,37 @@ function scrollToMatch (pdfViewer, match) {
         scrollToMatch(pdfViewer, match)
       }, 50)
     } else {
-      let [{ begin: { divIdx } }] = textLayer.convertMatches([matchIdx], [1])
+      let [{begin: {divIdx}}] = textLayer.convertMatches([matchIdx], [1])
       textLayer.textDivs[divIdx].scrollIntoView()
       // debugger
     }
   }
 }
 
+function getResultContextForPage (pdfViewer, pageIdx, currentMatchIdx, pageMatches, searchResultContextLength) {
+  let pageTextPromise = pdfViewer.getPageTextContent(pageIdx)
+    .then(({items}) => items.map((item) => item.str).join(' '))
+  /* this will cause some shifting:
+   - we are adding extra space compare to what the findController is doing
+   but it is required since some pdf don't add space at the end of their text divs
+   and we would end up with some text missing spaces and "lookingLikethat"
+   */
+  return pageMatches.map((matchIdx, idx) => {
+    return {
+      context: pageTextPromise.then((text) => {
+        let startPosition = matchIdx - (searchResultContextLength * 0.5)
+        startPosition = (startPosition > 0) ? startPosition : 0
+        return text.substr(startPosition, searchResultContextLength)
+      }),
+      matchIdx: idx + currentMatchIdx,
+      pageIdx
+    }
+  })
+}
+
 export default Component.extend({
   layout,
-  classNames: [ 'pdf-js' ],
+  classNames: ['pdf-js'],
   // Service
   pdfJs: injectService('pdf-js'),
   pdfLib: reads('pdfJs.PDFJS'),
@@ -71,6 +95,7 @@ export default Component.extend({
 
   // privates
   _topMargin: 10,
+  _searchResultContextLength: 100,
   _container: undefined,
 
   // components
@@ -78,7 +103,7 @@ export default Component.extend({
 
   // initialization
   didInsertElement () {
-    let container =  this.element.getElementsByClassName('pdfViewerContainer')[0]
+    let container = this.element.getElementsByClassName('pdfViewerContainer')[0]
     this.set('_container', container)
     let pdfLinkService = new PDFLinkService()
     this.set('pdfLinkService', pdfLinkService)
@@ -103,34 +128,38 @@ export default Component.extend({
     pdfViewer.currentScaleValue = 'page-fit'
 
     // setup the event listening to synchronise with pdf.js' modifications
-    let self = this
-    pdfViewer.eventBus.on('pagechange', function (evt) {
+    pdfViewer.eventBus.on('pagechange', (evt) => {
       let page = evt.pageNumber
-      run(function () {
-        self.set('pdfPage', page)
+      run(() => {
+        this.set('pdfPage', page)
       })
     })
 
-    pdfFindController.onUpdateResultsCount = function (total) {
-      run(function () {
-        self.set('matchTotal', total)
+    pdfFindController.onUpdateResultsCount = (total) => {
+      run(() => {
+        this.set('matchTotal', total)
       })
     }
-    pdfFindController.onUpdateState = function (state/*, previous, total*/) {
-      run(function () {
+    pdfFindController.onUpdateState = (state/*, previous, total*/) => {
+      run(() => {
+        if (state === 3) {
+          this.set('isSearchPending', true)
+          return
+        }
         if (state !== 0 && state !== 2) { // 0 <=> search found something ; 2 <=> wrapped
           return
         }
-        let { pageIdx, matchIdx } = pdfFindController.selected
+        this.set('isSearchPending', false)
+        let {pageIdx, matchIdx} = pdfFindController.selected
         if (matchIdx !== -1 || pageIdx !== -1) {
-          let { pageMatches } = pdfFindController
+          let {pageMatches} = pdfFindController
           let idx = matchIdx + 1
           for (let i = 0; i < pageIdx; i++) {
             idx += pageMatches[i].length
           }
           let match = pdfFindController.pageMatches[pageIdx][matchIdx]
-          self.set('currentMatch', match)
-          self.set('currentMatchIdx', idx)
+          this.set('currentMatch', match)
+          this.set('currentMatchIdx', idx)
         }
       })
     }
@@ -143,6 +172,49 @@ export default Component.extend({
   // observer
   pdfObserver: observer('pdf', function () {
     this.send('load')
+  }),
+  // we use an observer to setup this property to provide some sort of caching...
+  searchResultsObserver: observer('isSearchPending', 'matchTotal', function () {
+    let pdfFindController = this.get('pdfFindController')
+    let pdfViewer = this.get('pdfViewer')
+    let {pageMatches} = pdfFindController
+    if (this.get('isSearchPending')) {
+      this.set('searchResultContextsPerPage', A())
+      return
+    }
+    // else
+    let searchResultContextsPerPage = this.get('searchResultContextsPerPage')
+    let length = searchResultContextsPerPage.get('length')
+    if (length >= pageMatches.length) {
+      // no new matches yet let's wait
+      return
+    }
+    let searchResultContextLength = this.get('_searchResultContextLength')
+    let currentMatchIdx = pageMatches.slice(0, length).reduce((totalMatches, formattedContext) => totalMatches + formattedContext.length, 0)
+    console.log('currentLength -> ', length)
+    for (let i = length; i < pageMatches.length; i++) {
+      if (isEmpty(pageMatches[i])) {
+        searchResultContextsPerPage.pushObject([])
+      } else {
+        searchResultContextsPerPage.pushObject(getResultContextForPage(pdfViewer, i, currentMatchIdx, pageMatches[i], searchResultContextLength))
+      }
+      currentMatchIdx += pageMatches[i].length
+    }
+    console.log('searchResultContextsPerPage -> ', searchResultContextsPerPage.length)
+    // this.set('searchResultContextsPerPage', searchResultContextsPerPage)
+  }),
+
+  // computed
+  searchResultContexts: computed('searchResultContextsPerPage.[]', function () {
+    let searchResultContextsPerPage = this.get('searchResultContextsPerPage')
+    if (isEmpty(searchResultContextsPerPage)) {
+      return []
+    } // else
+    console.log('searchResultContextsPerPage -> ', searchResultContextsPerPage)
+    return searchResultContextsPerPage.reduce(
+      (joinedContexts, contextsOfPage) => joinedContexts.concat(contextsOfPage),
+      []
+    )
   }),
 
   // actions:
@@ -215,8 +287,7 @@ export default Component.extend({
       pdfViewer.getPageView(pdfLinkService.page - 1).div.scrollIntoView()
     },
     zoom () {
-      throw 'not implemented yet'
+      throw new Error('not implemented yet')
     }
   }
-
 })
