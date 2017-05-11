@@ -48,7 +48,7 @@ function scrollToMatch (pdfViewer, match) {
   }
 }
 
-function getResultContextForPage (pdfViewer, pageIdx, currentMatchIdx, pageMatches, searchResultContextLength) {
+function getResultContextForPage (pdfViewer, pageIdx, pageMatches, searchResultContextLength) {
   let pageTextPromise = pdfViewer.getPageTextContent(pageIdx)
     .then(({items}) => items.map((item) => item.str).join(' '))
   /* this will cause some shifting:
@@ -63,7 +63,7 @@ function getResultContextForPage (pdfViewer, pageIdx, currentMatchIdx, pageMatch
         startPosition = (startPosition > 0) ? startPosition : 0
         return text.substr(startPosition, searchResultContextLength)
       }),
-      matchIdx: idx + currentMatchIdx,
+      matchIdx: idx,
       pageIdx
     }
   })
@@ -190,18 +190,15 @@ export default Component.extend({
       return
     }
     let searchResultContextLength = this.get('_searchResultContextLength')
-    let currentMatchIdx = pageMatches.slice(0, length).reduce((totalMatches, formattedContext) => totalMatches + formattedContext.length, 0)
-    console.log('currentLength -> ', length)
+    // let currentMatchIdx = pageMatches.slice(0, length).reduce((totalMatches, formattedContext) => totalMatches + formattedContext.length, 0)
     for (let i = length; i < pageMatches.length; i++) {
       if (isEmpty(pageMatches[i])) {
         searchResultContextsPerPage.pushObject([])
       } else {
-        searchResultContextsPerPage.pushObject(getResultContextForPage(pdfViewer, i, currentMatchIdx, pageMatches[i], searchResultContextLength))
+        searchResultContextsPerPage.pushObject(getResultContextForPage(pdfViewer, i, pageMatches[i], searchResultContextLength))
       }
-      currentMatchIdx += pageMatches[i].length
+      // currentMatchIdx += pageMatches[i].length
     }
-    console.log('searchResultContextsPerPage -> ', searchResultContextsPerPage.length)
-    // this.set('searchResultContextsPerPage', searchResultContextsPerPage)
   }),
 
   // computed
@@ -210,7 +207,6 @@ export default Component.extend({
     if (isEmpty(searchResultContextsPerPage)) {
       return []
     } // else
-    console.log('searchResultContextsPerPage -> ', searchResultContextsPerPage)
     return searchResultContextsPerPage.reduce(
       (joinedContexts, contextsOfPage) => joinedContexts.concat(contextsOfPage),
       []
@@ -250,6 +246,18 @@ export default Component.extend({
         caseSensitive,
         phraseSearch
       })
+    },
+    goToMatch (matchIdx, pageIdx) {
+      let pdfFindController = this.get('pdfFindController')
+      // looks like a stupid hack but I haven't found better...
+      // place the offset "one match before"
+      pdfFindController.offset = {
+        pageIdx,
+        matchIdx: matchIdx - 1
+      }
+      console.log('new offset -> ', pdfFindController.offset)
+      // then call changeSearchResult with next ...
+      this.send('changeSearchResult', 'next')
     },
     changeSearchResult (changeDirection) {
       let pdfFindController = this.get('pdfFindController')
