@@ -119,6 +119,9 @@ export default Component.extend({
     pdfFindController.onUpdateState = function (state/*, previous, total*/) {
       run(function () {
         if (state !== 0 && state !== 2) { // 0 <=> search found something ; 2 <=> wrapped
+          self.set('currentMatch', undefined)
+          self.set('currentMatchIdx', undefined)
+          self.set('matchTotal', undefined)
           return
         }
         let { pageIdx, matchIdx } = pdfFindController.selected
@@ -215,7 +218,7 @@ export default Component.extend({
       pdfViewer.getPageView(pdfLinkService.page - 1).div.scrollIntoView()
     },
     zoom () {
-      throw 'not implemented yet'
+      throw new Error('not implemented yet')
     }
   }
 
