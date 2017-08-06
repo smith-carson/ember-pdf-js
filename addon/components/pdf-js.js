@@ -147,9 +147,9 @@ export default Component.extend({
           return
         }
         if (state !== 0 && state !== 2) { // 0 <=> search found something ; 2 <=> wrapped
-          self.set('currentMatch', undefined)
-          self.set('currentMatchIdx', undefined)
-          self.set('matchTotal', undefined)
+          this.set('currentMatch', undefined)
+          this.set('currentMatchIdx', undefined)
+          this.set('matchTotal', undefined)
           return
         }
         this.set('isSearchPending', false)
