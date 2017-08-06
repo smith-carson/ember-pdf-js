@@ -103,7 +103,7 @@ export default Component.extend({
 
   // initialization
   didInsertElement () {
-    let container = this.element.getElementsByClassName('pdfViewerContainer')[0]
+    let [container] = this.element.getElementsByClassName('pdfViewerContainer')
     this.set('_container', container)
     let pdfLinkService = new PDFLinkService()
     this.set('pdfLinkService', pdfLinkService)
