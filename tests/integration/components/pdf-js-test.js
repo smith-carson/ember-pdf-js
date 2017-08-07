@@ -11,14 +11,8 @@ test('it renders', function (assert) {
 
   this.render(hbs`{{pdf-js}}`)
 
-  assert.equal(this.$().text().trim(), '')
-
-  // Template block usage:
-  this.render(hbs`
-    {{#pdf-js}}
-      template block text
-    {{/pdf-js}}
-  `)
-
-  assert.equal(this.$().text().trim(), 'template block text')
+  // check toolbar included
+  assert.equal(this.$('.toolbar').length, 1)
+  // check next/prev buttons exist
+  assert.equal(this.$('.toolbar button').length, 2)
 })
