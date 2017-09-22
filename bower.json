@@ -1,6 +1,0 @@
-{
-  "name": "ember-pdf-js",
-  "dependencies": {
-    "pdfjs-dist": "1.7.316"
-  }
-}

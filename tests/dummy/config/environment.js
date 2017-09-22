@@ -1,6 +1,7 @@
-/* jshint node: true */
+/* eslint-env node */
+'use strict';
 
-module.exports = function (environment) {
+module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'dummy',
     environment,
@@ -20,12 +21,8 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    },
-
-    emberPdfJs: {
-      workerSrc: '/pdf.worker.js'
     }
-  }
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -37,18 +34,18 @@ module.exports = function (environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.locationType = 'none'
+    ENV.locationType = 'none';
 
     // keep test console output quieter
-    ENV.APP.LOG_ACTIVE_GENERATION = false
-    ENV.APP.LOG_VIEW_LOOKUPS = false
+    ENV.APP.LOG_ACTIVE_GENERATION = false;
+    ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = '#ember-testing'
+    ENV.APP.rootElement = '#ember-testing';
   }
 
   if (environment === 'production') {
 
   }
 
-  return ENV
-}
+  return ENV;
+};

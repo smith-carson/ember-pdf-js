@@ -13,6 +13,6 @@ module.exports = {
   normalizeEntityName () {},
 
   afterInstall () {
-    return this.addBowerPackageToProject('pdfjs-dist', '1.7.316')
+    // return this.addBowerPackageToProject('pdfjs-dist', '1.7.316')
   }
 }
