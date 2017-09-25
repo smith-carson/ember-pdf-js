@@ -1,7 +1,7 @@
 {
   "name": "ember-pdf-js",
-  "version": "0.1.11",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.14",
+  "description": "A simple addon to wrap PDF.js in ember.",
   "directories": {
     "doc": "doc",
     "test": "tests"
