@@ -4,5 +4,6 @@
   "requireSemicolons": false,
   "disallowSpacesInFunction": false,
   "disallowSpaceAfterObjectKeys": false,
-  "requireSpacesInsideObjectBrackets": false
+  "requireSpacesInsideObjectBrackets": false,
+  "excludeFiles": ["router.js", "app.js", "helpers/*.js"]
 }
