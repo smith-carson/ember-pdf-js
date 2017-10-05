@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/npm/l/ember-pdf-js.svg)](LICENSE.md)
 [![Dependencies](https://img.shields.io/david/smith-carson/ember-pdf-js.svg)](https://david-dm.org/smith-carson/ember-pdf-js)
 [![Dev Dependencies](https://img.shields.io/david/dev/smith-carson/ember-pdf-js.svg)](https://david-dm.org/smith-carson/ember-pdf-js#info=devDependencies)
+[![Build Status](https://travis-ci.org/smith-carson/ember-pdf-js.svg?branch=master)](https://travis-ci.org/smith-carson/ember-pdf-js)
 
 
 This is a simple addon to wrap PDF.js in ember.

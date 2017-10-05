@@ -4,14 +4,16 @@
   z-index: 100;
   background: solid white;
 }
-.ember-pdf-js.viewer .pdfViewerContainer{
+
+.ember-pdf-js.viewer .pdfViewerContainer {
   position: absolute;
-  top:0;
+  top: 0;
   bottom: 0;
   overflow-y: auto;
   left: 0;
   right: 0;
 }
+
 body, html {
   overflow: hidden;
 }
