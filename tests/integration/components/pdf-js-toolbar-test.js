@@ -10,7 +10,7 @@ test('it renders', function (assert) {
   // Handle any actions with this.on('myAction', function(val) { ... });
   this.set('emptyFn', () => {})
 
-  this.render(hbs`{{pdf-js-toolbar changePage=emptyFn}}`)
+  this.render(hbs`{{pdf-js-toolbar changePage=(action emptyFn)}}`)
 
   // check next/prev buttons exist
   assert.equal(this.$('button').length, 2)
