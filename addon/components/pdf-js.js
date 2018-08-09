@@ -125,7 +125,7 @@ export default Component.extend({
     // Ember.Logger.debug('pdfFindController -> ', pdfFindController)
     // Ember.Logger.debug('pdfViewer -> ', pdfViewer)
     pdfViewer.setFindController(pdfFindController)
-    pdfViewer.currentScaleValue = 'page-fit'
+    pdfViewer.currentScaleValue = 'auto'
 
     // setup the event listening to synchronise with pdf.js' modifications
     pdfViewer.eventBus.on('pagechange', (evt) => {
